@@ -1,0 +1,76 @@
+1) System Components
+
+We will create four main subsystems:
+
+1) Backend Service (Spring Boot REST API)
+
+2) Frontend Mobile App (Android Jetpack Compose)
+
+2) Database Layer (e.g., mysql)
+
+3) Network & Integration Layer (Retrofit + JSON API)
+
+
+
+2) Functionality
+
+Here’s the purpose and functionality of each subsystem:
+
+Subsystem	Purpose
+Backend Service (Spring)	: Provide REST APIs to manage books, users, branches, and transactions.
+Android App (Compose)	: Allow users to view, search, and manage books from the mobile interface.
+Database Layer	: Persist and manage all library data like books, users, loans, branches.
+Network Layer (Retrofit): Bridge between mobile and backend services, handling communication.
+
+
+3) Data Model (Logical)
+
+[Book]
+- id: Long (PK)
+- title: String
+- author: String
+- tags: List<String>
+
+[User]
+- id: Long (PK)
+- name: String
+- email: String
+
+[LibraryBranch]
+- id: Long (PK)
+- name: String
+- location: String
+
+[Loan] (optional for expansion)
+- id: Long (PK)
+- userId: Long (FK -> User)
+- bookId: Long (FK -> Book)
+- borrowedDate: Date
+- returnDate: Date
+
+
+4) Integration Strategy
+
+Communication Flow:
+
+    Android App (Compose) ⟶ uses Retrofit to call ⟶ Spring Boot REST API
+
+    Spring Boot API handles business logic and persists data via JPA to the Database
+
+    Data is serialized as JSON and sent back to the app
+
+    Jetpack Compose renders this data into a responsive UI
+
+Data Consistency:
+
+    The API is the single source of truth.
+
+    The database uses transactions for atomic operations.
+
+    The Android app reflects backend state in real-time or via pull-to-refresh.
+
+Security (future scope):
+
+    OAuth2 / JWT for user authentication.
+
+    HTTPS for secure data transmission.
